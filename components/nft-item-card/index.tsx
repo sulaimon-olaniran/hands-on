@@ -1,5 +1,5 @@
 "use client";
-
+import {motion} from "framer-motion";
 import Image from "next/image";
 
 interface ComponentProps {
@@ -8,29 +8,33 @@ interface ComponentProps {
     description: string;
     image: string;
   };
+  index: number;
 }
 
-const NFTItemCardComponent = ({nft}: ComponentProps) => {
+const NFTItemCardComponent = ({nft, index}: ComponentProps) => {
   return (
-    <div className="w-[390px] h-[278px] bg-[#11182780] border-[1px] border-[#1F2937] rounded-[12px] overflow-hidden ">
-      <div className="w-full h-[192px] bg-black/50 relative ">
-        <div className="absolute w-full h-full flex items-center justify-center"></div>
+    <motion.div
+      className="w-[390px] h-[278px] bg-[#11182780] border border-[#1F2937] rounded-lg overflow-hidden sm:w-full tab:w-[315px] shadow-lg"
+      initial={{opacity: 0, y: 30, scale: 0.95}}
+      animate={{opacity: 1, y: 0, scale: 1}}
+      transition={{duration: 0.5, ease: "easeOut", delay: index * 0.2}}
+      whileHover={{scale: 1.05, transition: {duration: 0.3}}}
+    >
+      <div className="w-full h-[192px] bg-black/50 relative overflow-hidden rounded-t-lg">
         <Image
           src={nft.image}
           width={600}
           height={600}
-          alt="nft"
-          className="w-full h-full object-cover "
+          alt={nft.name}
+          className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
         />
       </div>
 
-      <div className="px-[16px] pt-[18px] flex flex-col space-y-3 ">
-        <p className="font-[700] text-[16px] leading-[16px] ">{nft.name}</p>
-        <span className="text-[14px] leading-[14px] font-[400] text-[#9CA3AF] ">
-          {nft.description}
-        </span>
+      <div className="px-4 pt-4 flex flex-col space-y-2">
+        <p className="font-bold text-lg">{nft.name}</p>
+        <span className="text-sm text-gray-400">{nft.description}</span>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
